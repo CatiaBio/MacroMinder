@@ -16,16 +16,21 @@ jobs:
         with:
           path: src
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: MacroMinderWindows
-          path: src/dist/windows
+      - name: Package as a zip
+        working-directory: ./src/dist/windows
+        run: |
+          zip --recurse-paths ../../MacroMinderWindows.zip .
 
-      # - name: Upload binaries to release
-      #   uses: svenstaro/upload-release-action@v2
+      # - uses: actions/upload-artifact@v4
       #   with:
-      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
-      #     file: ${{ env.binary }}.zip
-      #     asset_name: ${{ env.binary }}-windows-${{ steps.get_version.outputs.tag }}.zip
-      #     tag: ${{ github.ref }}
-      #     overwrite: true
+      #     name: MacroMinderWindows
+      #     path: src/dist/windows
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: MacroMinderWindows.zip
+          asset_name: MacroMinder-Windows-${{ steps.get_version.outputs.tag }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
