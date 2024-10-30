@@ -3,7 +3,6 @@ name: Build Python Executable
 on:
   release:
     types: [created]
-  workflow_dispatch:
 
 # Make sure the GITHUB_TOKEN has permission to upload to our releases
 permissions:
@@ -21,14 +20,9 @@ jobs:
           path: src
 
       - name: Package as a zip
-        # working-directory: ./src/dist/windows
+        working-directory: ./src/dist/windows
         run: |
-          zip --recurse-paths MacroMinderWindows.zip ./src/dist/windows/*
-
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: MacroMinderWindows
-      #     path: src/dist/windows
+          zip --recurse-paths ../../../MacroMinderWindows.zip .
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
