@@ -17,9 +17,9 @@ jobs:
           path: src
 
       - name: Package as a zip
-        working-directory: ./src/dist/windows
+        # working-directory: ./src/dist/windows
         run: |
-          zip --recurse-paths ../../MacroMinderWindows.zip .
+          zip --recurse-paths MacroMinderWindows.zip ./src/dist/windows
 
       # - uses: actions/upload-artifact@v4
       #   with:
