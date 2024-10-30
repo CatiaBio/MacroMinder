@@ -14,12 +14,12 @@ jobs:
       - name: Package Application
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          path: .
+          path: src
 
       - uses: actions/upload-artifact@v4
         with:
           name: MacroMinderWindows
-          path: dist/windows
+          path: src/dist/windows
 
       # - name: Upload binaries to release
       #   uses: svenstaro/upload-release-action@v2
