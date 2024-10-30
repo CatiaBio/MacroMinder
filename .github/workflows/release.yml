@@ -1,0 +1,31 @@
+name: Build Python Executable
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package Application
+        uses: JackMcKew/pyinstaller-action-windows@main
+        with:
+          path: .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MacroMinderWindows
+          path: dist/windows
+
+      # - name: Upload binaries to release
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: ${{ env.binary }}.zip
+      #     asset_name: ${{ env.binary }}-windows-${{ steps.get_version.outputs.tag }}.zip
+      #     tag: ${{ github.ref }}
+      #     overwrite: true
