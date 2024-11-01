@@ -1,0 +1,34 @@
+name: Build Python Executable
+
+on:
+  release:
+    types: [created]
+
+# Make sure the GITHUB_TOKEN has permission to upload to our releases
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package Application
+        uses: JackMcKew/pyinstaller-action-windows@main
+        with:
+          path: src
+
+      - name: Package as a zip
+        working-directory: ./src/dist/windows
+        run: |
+          zip --recurse-paths ../../../MacroMinderWindows.zip .
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: MacroMinderWindows.zip
+          asset_name: MacroMinder-Windows-${{ steps.get_version.outputs.tag }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
